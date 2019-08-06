@@ -7,7 +7,7 @@
 ########################################################################
 
 ## EXAMPLE
-#./runpipe TCGA/GDC_10.0/Nervous_System/RNA-Seq Nervous_System
+#./runpipe TCGA/GDC_10.0/Nervous_System/RNA-Seq Nervous_System manifest.txt
 
 # Configurations
 path=$1
@@ -53,9 +53,22 @@ else
 			print "";
 		}
 	' | (cat && tail -n+2 output/temp2.tsv) > $output_name
+	
+	# Tumor samples
+	cat $output_name | datamash transpose | awk -F'\t' 'NR==1||$1~/01$/' | datamash transpose | awk -F'\t' '
+		NR==1{
+			for(i=2;i<=NF;i++){
+				printf "\t"substr($i, 1, 12);
+			}
+			print "";
+		}
+		NR>1{
+			print
+		}' > $output_name_tumor
 fi
 
 # Delete temporary files
 rm -f temp/*
 rm output/temp.tsv
+rm output/temp2.tsv
 rmdir temp
