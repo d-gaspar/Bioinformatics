@@ -4,6 +4,7 @@
 # Configurations
 path=$1
 output_name=$(printf "output/"$2".tsv")
+manifest=$3
 
 # Create directories
 mkdir -p temp
@@ -22,6 +23,14 @@ python src/merge_tables.py -i temp/ --ext txt -o output/temp.tsv
 
 # Toupper on samples names
 (head -n1 output/temp.tsv | awk '{print toupper($0)}' && tail -n+2 output/temp.tsv) > $output_name
+
+# replace fileid with barcode
+if [ -z "$manifest" ]
+then
+	printf "variable manifest in unset\n"
+else
+	Rscript src/get_barcode_given_fileID.R --manifest "$manifest"
+fi
 
 # Delete temporary files
 rm -f temp/*
