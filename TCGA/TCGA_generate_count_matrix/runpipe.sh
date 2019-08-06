@@ -1,3 +1,11 @@
+
+########################################################################
+#                                                                      #
+# AUTHOR: Daniel Gaspar Goncalves                                      #
+# git: https://github.com/d-gaspar/                                    #
+#                                                                      #
+########################################################################
+
 ## EXAMPLE
 #./runpipe TCGA/GDC_10.0/Nervous_System/RNA-Seq Nervous_System
 
