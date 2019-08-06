@@ -4,6 +4,7 @@
 # Configurations
 path=$1
 output_name=$(printf "output/"$2".tsv")
+output_name_tumor=$(printf "output/"$2"_TUMOR.tsv")
 manifest=$3
 
 # Create directories
@@ -22,7 +23,7 @@ done
 python src/merge_tables.py -i temp/ --ext txt -o output/temp.tsv 
 
 # Toupper on samples names
-(head -n1 output/temp.tsv | awk '{print toupper($0)}' && tail -n+2 output/temp.tsv) > $output_name
+(head -n1 output/temp.tsv | awk '{print toupper($0)}' && tail -n+2 output/temp.tsv) > output/temp2.tsv
 
 # replace fileid with barcode
 if [ -z "$manifest" ]
@@ -30,6 +31,20 @@ then
 	printf "variable manifest in unset\n"
 else
 	Rscript src/get_barcode_given_fileID.R --manifest "$manifest"
+	
+	# All samples
+	(cat temp/fileid_barcode.tsv && head -n1 output/temp2.tsv) | awk -F'\t' -v lines=$(wc -l temp/fileid_barcode.tsv | cut -d' ' -f1) '
+		NR>1&&NR<=lines{
+			split($3, b, "-");
+			a[toupper($2)] = toupper(b[1]"-"b[2]"-"b[3]"-"substr(b[4], 1, 2));
+		}
+		NR==lines+1{
+			for(i=2;i<=NF;i++){
+				printf "\t"a[$i];
+			}
+			print "";
+		}
+	' | (cat && tail -n+2 output/temp2.tsv) > $output_name
 fi
 
 # Delete temporary files
