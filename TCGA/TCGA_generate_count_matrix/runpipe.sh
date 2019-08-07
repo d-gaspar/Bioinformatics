@@ -29,6 +29,7 @@ done
 
 # Create matrix
 python src/merge_tables.py -i temp/ --ext txt -o output/temp.tsv 
+# ./src/merge_tables.sh temp/ txt output/temp.tsv
 
 # Toupper on samples names
 (head -n1 output/temp.tsv | awk '{print toupper($0)}' && tail -n+2 output/temp.tsv) > output/temp2.tsv
