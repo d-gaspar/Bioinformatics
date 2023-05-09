@@ -5,7 +5,7 @@
 
 # Usage (linux)
 
-- Open both files and edit the project name
+- Open both files and edit the project name (tcga_2023_download.R and tcga_2023_merge.R)
 
 - Run the following script to download quantification data (fpkm and count) e clinical data (already merged)
 
@@ -21,11 +21,13 @@
 
 # Usage (windows)
 
-- Check your working directory (the downloaded files will be download in this directory)
+- Check your working directory (the downloaded files will be in this directory)
 
 ```R
   getwc()
 ```
+
+- change project name in both files (tcga_2023_download.R and tcga_2023_merge.R)
 
 - Run tcga_2023_download.R script in Rstudio
 
@@ -37,4 +39,4 @@
 
 - this scripts was splited in two because of the memory usage.
 
-- We recommend you to delete GDCdata directory and their files to free memory
+- We recommend you to delete GDCdata directory and their files to free memory (only after merge the data). The output files (clinical, fpkm and count) are out of this directory.
