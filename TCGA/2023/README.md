@@ -40,3 +40,7 @@
 - this scripts was splited in two because of the memory usage.
 
 - We recommend you to delete GDCdata directory and their files to free memory (only after merge the data). The output files (clinical, fpkm and count) are out of this directory.
+
+# Output files
+
+![output files](image/organogram.png)
